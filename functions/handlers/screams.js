@@ -83,7 +83,8 @@ exports.getScream = (req, res) => {
 };
 // Comment on a comment
 exports.commentOnScream = (req, res) => {
-  if(req.body.body.trim() === '') return res.status(400).json({ error: 'Must not be empty'});
+  if(req.body.body.trim() === '')
+    return res.status(400).json({ error: 'Must not be empty'});
 
   const newComment = {
     body: req.body.body,
@@ -92,7 +93,8 @@ exports.commentOnScream = (req, res) => {
     userHandle: req.user.handle,
     userImage: req.user.imageUrl
   };
-
+  console.log(newComment);
+  
   db
     .doc(`/screams/${req.params.screamId}`)
     .get()
@@ -116,7 +118,7 @@ exports.commentOnScream = (req, res) => {
 // Like a scream
 exports.likeScream = (req, res) => {
 // req.user.handle is the actual user
-  const likeDocument = db.collection('Likes')
+  const likeDocument = db.collection('likes')
     .where('userHandle', '==', req.user.handle)
 // Params.screamId is the url of the like
     .where('screamId', '==', req.params.screamId)
@@ -141,7 +143,7 @@ exports.likeScream = (req, res) => {
 // Increment like count data
     .then(data => {
       if(data.empty){
-        return db.collection('Likes').add({
+        return db.collection('likes').add({
           screamId: req.params.screamId,
           userHandle: req.user.handle
         })
@@ -166,7 +168,7 @@ exports.likeScream = (req, res) => {
 
 exports.unlikeScream = (req, res) => {
 // req.user.handle is the actual user
-  const likeDocument = db.collection('Likes')
+  const likeDocument = db.collection('likes')
     .where('userHandle', '==', req.user.handle)
 // Params.screamId is the url of the like
     .where('screamId', '==', req.params.screamId)
@@ -193,7 +195,7 @@ exports.unlikeScream = (req, res) => {
         return res.status(400).json({ error: 'Scream not liked'});
       } else {
         return db
-        .doc(`/Likes/${data.docs[0].id}`)
+        .doc(`/likes/${data.docs[0].id}`)
         .delete()
         .then(() => {
           screamData.likeCount--;
