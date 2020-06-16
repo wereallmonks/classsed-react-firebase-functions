@@ -42,7 +42,7 @@ exports.signup = (req, res) => {
         handle: newUser.handle,
         email: newUser.email,
         createdAt: new Date().toISOString(),
-        imageUrl: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImg}?alt=media`,
+        imageUrl: `https://firebasestorage.googleapis.com/v0/b/socialape-54d3c.appspot.com/o/no-img.png?alt=media&token=81efc844-7a3e-4a3f-8d88-0d5dd0f48541`,
         userId
       };
       return db.doc(`/users/${newUser.handle}`).set(userCredentials);
