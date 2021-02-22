@@ -198,10 +198,20 @@ exports.uploadImage = (req, res) => {
     if (mimetype !== 'image/jpeg' && mimetype !== 'image/png') {
      return res.status(400).json({ error: 'Wrong file type submitted' });
     }
+<<<<<<< HEAD
     // image.png
     const imageExtension = filename.split('.')[filename.split('.').length - 1];
     // 12379873.png
     const imageFileName = `${Math.round(Math.random() * 1000000000000).toString()}.${imageExtension}`;
+=======
+    console.log(fieldname);
+    console.log(filename);
+    console.log(mimetype);
+    // my.image.png => ['my, 'image', 'png']
+    const imageExtension = filename.split('.')[filename.split('.').length - 1];
+    // 12379873.png
+    const imageFileName = `${Math.round(Math.random()*10000000000).toString()}.${imageExtension}`;
+>>>>>>> d7c796a6a9032b59d3e4dcd35705f7838257c827
     const filepath = path.join(os.tmpdir(),imageFileName);
     imageToBeUploaded = { filepath, mimetype };
     file.pipe(fs.createWriteStream(filepath));
@@ -221,8 +231,13 @@ exports.uploadImage = (req, res) => {
     .then(() => {
       // adding alt media shows it in the browswer instead of downloading into computer
       const imageUrl =
+<<<<<<< HEAD
       `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media`;
       return db.doc(`/users/${req.user.handle}`).update({ imageUrl })
+=======
+      `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media&token=${generatedToken}`;
+      return db.doc(`/users/${req.user.handle}`).update({ imageUrl });
+>>>>>>> d7c796a6a9032b59d3e4dcd35705f7838257c827
     })
     .then(() => {
       return res.json({ message: 'Image uploaded successfully'});
